@@ -2,7 +2,6 @@
 
 let humanScore = 0;
 let computerScore = 0;
-let totalRounds = 0;
 
 const getComputerChoice = () => {
     const choices = ["rock", "paper", "scissors"]
@@ -17,38 +16,32 @@ function playRound(humanChoice, computerChoice) {
     // paper beats rock
     if (humanChoice === "paper" && computerChoice === "rock") {
         humanScore += 1;
-        totalRounds += 1;
         // make this text below appear on screen and remove console log
         // console.log("You win! Paper beats Rock.")
 
         document.querySelector('#results').textContent = "You win! Paper beats Rock.";
     } else if (humanChoice === "rock" && computerChoice === "paper") {
         computerScore += 1;
-        totalRounds += 1;
         // console.log("You lose! Paper beats Rock.")
 
         document.querySelector('#results').textContent = "You lose! Paper beats Rock.";
     } else if (humanChoice === "rock" && computerChoice === "scissors") { // rock beats scissors 
         humanScore += 1;
-        totalRounds += 1;
         // console.log("You win! Rock beats Scissors.");
 
         document.querySelector('#results').textContent = "You win! Rock beats Scissors.";
     } else if (humanChoice === "scissors" && computerChoice === "rock") {
         computerScore += 1; 
-        totalRounds += 1;
         // console.log("You lose! Rock beats Scissors.")
 
         document.querySelector('#results').textContent = "You lose! Rock beats Scissors.";
     } else if (humanChoice === "scissors" && computerChoice === "paper") { // scissors beats paper
         humanScore += 1;
-        totalRounds += 1;
         // console.log("You win! Scissors beats Paper.")
 
         document.querySelector('#results').textContent = "You win! Scissors beats Paper.";
     } else if (humanChoice === "paper" && computerChoice === "scissors") {
         computerScore += 1;
-        totalRounds += 1;
         // console.log("You lose. Scissors beats Paper.")
 
         document.querySelector('#results').textContent = "You lose. Scissors beats Paper."; 
@@ -71,6 +64,7 @@ function playRound(humanChoice, computerChoice) {
 }
 
 function playGame() {
+    let totalRounds = 0;
     let gameOver = false;
 
     // game choices to play round
@@ -84,23 +78,16 @@ function playGame() {
 
     btnArr.forEach(element => {
         element.addEventListener('click', event => {
-            if (gameOver) { 
-                let playAgain = prompt('Do you wish to play again? y/n');
-                if (playAgain === 'y') {
-                    location.reload();
-                } else {
-                    alert('Thank you for playing.');
-                    return
-                }
-            }
+            if (gameOver) { return; }
 
+            totalRounds += 1;
             humanChoice = event.target.id; // get clicked btn id
             computerChoice = getComputerChoice(); // get fresh computer choice
             playRound(humanChoice, computerChoice); // run one round
             console.log(`total round: ${totalRounds}`);
 
             // Declare winner to screen
-            if (totalRounds > 4) {
+            if (totalRounds >= 5) {
                 gameOver = true;
 
                 if (humanScore > computerScore) {
@@ -117,7 +104,14 @@ function playGame() {
                     document.querySelector('#gameResults').textContent = "Tie, time to play again for tiebreaker!";
                 }
 
-                document.querySelector('#gameOver').textContent = 'GAME OVER.'
+                document.querySelector('#gameOver').textContent = 'GAME OVER. If you wish to play again, click restart.'
+                
+               if (gameOver) { 
+                    let restartBtn = document.querySelector('#restart');
+                    restartBtn.style.display = 'inline-block';
+
+                    restartBtn.addEventListener('click', () => { location.reload(); });   
+                }
             }
         });
     });
