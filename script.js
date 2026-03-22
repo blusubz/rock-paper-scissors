@@ -10,13 +10,9 @@ const getComputerChoice = () => {
     return choice;
 }
 
-const getHumanChoice = () => {
-    let choice = prompt("Enter a choice of 'rock', 'paper' or 'scissors'.")
-    console.log("You selected: " + choice);
-    return choice;
-}
-
 function playRound(humanChoice, computerChoice) {
+    // Game logic 
+
     // paper beats rock
     if (humanChoice === "paper" && computerChoice === "rock") {
         humanScore += 1;
@@ -49,21 +45,52 @@ function playGame() {
     let totalRounds = 0;
 
     // If total rounds are less than 5 end game and decide winner
-    while(totalRounds < 5) {
+    // while(totalRounds < 5) {
         
-        // Need to declare winner to screen
+    //     // Always get a fresh choice from both players.
+    //     let humanChoice = getHumanChoice().toLowerCase();
+    //     let computerChoice = getComputerChoice();
 
-        // Always get a fresh choice from both players.
-        let humanChoice = getHumanChoice().toLowerCase();
-        let computerChoice = getComputerChoice();
+    //     playRound(humanChoice, computerChoice);
 
+    //     totalRounds += 1;
+    // }
+
+    // game choices to play round
+    let computerChoice = '';
+    let humanChoice = '';
+
+    const rockBtn = document.querySelector('#rock');
+    const paperBtn = document.querySelector('#paper');
+    const scissorsBtn = document.querySelector('#scissors');
+    const btnArr = [rockBtn, paperBtn, scissorsBtn];
+
+    rockBtn.addEventListener('click', (event) => {
+        humanChoice = event.target.id;
+        computerChoice = getComputerChoice();
         playRound(humanChoice, computerChoice);
+    });
 
-        totalRounds += 1;
-    }
+    paperBtn.addEventListener('click', (event) => {
+        humanChoice = event.target.id;
+        computerChoice = getComputerChoice();
+        playRound(humanChoice, computerChoice);
+    });
 
-    console.log("STUB")
+    scissorsBtn.addEventListener('click', (event) => {
 
+    });
+
+    btnArr.forEach(element => {
+        element.addEventListener('click', event => {
+            humanChoice = event.target.id; // get clicked btn id
+            computerChoice = getComputerChoice(); // get fresh computer choice
+            playRound(humanChoice, computerChoice); // run one round
+        });
+    });
+
+    
+    // Declare winner to screen
     if (humanScore > computerScore) {
         console.log("You are the winner!");
     } else if (humanScore < computerScore) {
