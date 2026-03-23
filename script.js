@@ -104,7 +104,7 @@ function playGame() {
                     document.querySelector('#gameResults').textContent = "Tie, time to play again for tiebreaker!";
                 }
 
-                document.querySelector('#gameOver').textContent = 'GAME OVER. If you wish to play again, click restart.'
+                document.querySelector('#gameOver').innerHTML = 'GAME OVER. <br> If you wish to play again, click restart.';
                 
                if (gameOver) { 
                     let restartBtn = document.querySelector('#restart');
